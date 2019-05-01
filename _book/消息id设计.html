@@ -1,0 +1,566 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>4：消息id设计 · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    
+    <link rel="prev" href="协议设计.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    前言
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="系统架构.html">
+            
+                <a href="系统架构.html">
+            
+                    
+                    1：系统架构
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="存储设计.html">
+            
+                <a href="存储设计.html">
+            
+                    
+                    2：存储设计
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="协议设计.html">
+            
+                <a href="协议设计.html">
+            
+                    
+                    3：协议设计
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.5" data-path="消息id设计.html">
+            
+                <a href="消息id设计.html">
+            
+                    
+                    4：消息id设计
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >4：消息id设计</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="4&#xFF1A;&#x6D88;&#x606F;id&#x8BBE;&#x8BA1;">4&#xFF1A;&#x6D88;&#x606F;id&#x8BBE;&#x8BA1;</h1>
+<p>&#x5206;&#x5E03;&#x5F0F;&#x73AF;&#x5883;&#x4E0B;, &#x5373;&#x65F6;&#x6D88;&#x606F;&#x7684;&#x65F6;&#x5E8F;&#x96BE;&#x4EE5;&#x4FDD;&#x8BC1;.</p>
+<h2 id="1&#x51E0;&#x79CD;&#x573A;&#x666F;">1.&#x51E0;&#x79CD;&#x573A;&#x666F;.</h2>
+<h4 id="11&#x5206;&#x5E03;&#x5F0F;&#x73AF;&#x5883;">1.1&#x5206;&#x5E03;&#x5F0F;&#x73AF;&#x5883;</h4>
+<p><img src="pic/1556683509648.png" alt="1556683509648"></p>
+<p>&#x200B;    &#x591A;&#x53D1;&#x9001;&#x65B9;&#x4E0D;&#x80FD;&#x4FDD;&#x8BC1;&#x65F6;&#x5E8F;, &#x5047;&#x8BBE;&#x53EA;&#x6709;&#x4E00;&#x4E2A;&#x53D1;&#x9001;&#x65B9;, &#x7531;&#x4E8E;&#x591A;&#x4E2A;&#x63A5;&#x6536;&#x65B9;&#x7684;&#x5B58;&#x5728;, &#x65E0;&#x6CD5;&#x4FDD;&#x8BC1;&#x53D1;&#x9001;&#x65B9;&#x7684;&#x672C;&#x5730;&#x65F6;&#x95F4;, &#x56E0;&#x6B64;&#x65E0;&#x6CD5;&#x4FDD;&#x8BC1;&#x7EDD;&#x5BF9;&#x65F6;&#x5E8F;.</p>
+<p>&#x200B;    web1&#x5148;&#x540E;&#x53D1;&#x9001;msg1, &#x7136;&#x540E;&#x53D1;&#x9001;msg2, &#x7531;&#x4E8E;&#x7F51;&#x7EDC;&#x4F20;&#x8F93;&#x4EE5;&#x53CA;&#x591A;&#x63A5;&#x53D7;&#x65B9;&#x5B58;&#x5728;, &#x65E0;&#x6CD5;&#x4FDD;&#x8BC1;msg1&#x5148;&#x88AB;&#x63A5;&#x6536;&#x65B9;&#x5904;&#x7406;, &#x6545;&#x65E0;&#x6CD5;&#x4FDD;&#x8BC1;msg1&#x548C;msg2&#x7684;&#x5904;&#x7406;&#x65F6;&#x5E8F;.</p>
+<h4 id="12&#x7F51;&#x7EDC;&#x4F20;&#x8F93;&#x548C;&#x591A;&#x7EBF;&#x7A0B;">1.2&#x7F51;&#x7EDC;&#x4F20;&#x8F93;&#x548C;&#x591A;&#x7EBF;&#x7A0B;</h4>
+<p><img src="pic/1556683716995.png" alt="1556683716995"></p>
+<p>&#x200B;    &#x591A;&#x53D1;&#x9001;&#x65B9;&#x548C;&#x591A;&#x63A5;&#x6536;&#x65B9;&#x96BE;&#x4EE5;&#x4FDD;&#x8BC1;&#x7EDD;&#x5BF9;&#x65F6;&#x5E8F;, &#x5047;&#x8BBE;&#x53EA;&#x6709;&#x5355;&#x4E00;&#x7684;&#x53D1;&#x9001;&#x65B9;&#x548C;&#x5355;&#x4E00;&#x63A5;&#x6536;&#x65B9;, &#x4F46;&#x662F;&#x7531;&#x4E8E;&#x7F51;&#x7EDC;&#x4F20;&#x8F93;&#x548C;&#x591A;&#x7EBF;&#x7A0B;&#x5B58;&#x5728;, &#x4ECD;&#x4E0D;&#x80FD;&#x4FDD;&#x8BC1;&#x7EDD;&#x5BF9;&#x7684;&#x65F6;&#x5E8F;.</p>
+<p>&#x200B;    web1&#x5148;&#x540E;&#x53D1;&#x9001;msg1&#x548C;msg2, &#x53CA;&#x65F6;msg1&#x5148;&#x5230;&#x8FBE;(&#x7F51;&#x7EDC;&#x4F20;&#x8F93;&#x5176;&#x5B9E;&#x4E0D;&#x80FD;&#x4FDD;&#x8BC1;msg1&#x5148;&#x5230;&#x8FBE;), &#x4F46;&#x662F;&#x7531;&#x4E8E;&#x591A;&#x7EBF;&#x7A0B;&#x5B58;&#x5728;, &#x4E5F;&#x4E0D;&#x80FD;&#x4FDD;&#x8BC1;msg1&#x5148;&#x88AB;&#x5904;&#x7406;&#x5B8C;.</p>
+<h2 id="2&#x751F;&#x4EA7;&#x73AF;&#x5883;&#x601D;&#x8003;">2.&#x751F;&#x4EA7;&#x73AF;&#x5883;&#x601D;&#x8003;</h2>
+<p>&#x200B;    &#x5176;&#x5B9E;&#x5927;&#x90E8;&#x5206;&#x4E1A;&#x52A1;&#x80FD;&#x591F;&#x63A5;&#x53D7;&#x8BEF;&#x5DEE;&#x4E0D;&#x5927;&#x7684;&#x8D8B;&#x52BF;&#x9012;&#x589E;id.</p>
+<p>&#x200B;    &#x6D88;&#x606F;&#x53D1;&#x9001;, &#x5E16;&#x5B50;&#x53D1;&#x5E03;&#x65F6;&#x95F4;, &#x79D2;&#x6740;&#x65F6;&#x95F4;&#x6CA1;&#x6709;&#x90A3;&#x4E48;&#x7CBE;&#x51C6;&#x7684;&#x65F6;&#x5E8F;&#x8981;&#x6C42;.</p>
+<p>&#x200B;    &#x540C;1s&#x53D1;&#x5E03;&#x804A;&#x5929;&#x6D88;&#x606F;&#x4E71;&#x5E8F;&#x4E86;.</p>
+<p>&#x200B;    &#x540C;1s&#x53D1;&#x5E03;&#x7684;&#x5E16;&#x5B50;&#x6392;&#x5E8F;&#x4E0D;&#x5BF9;.</p>
+<p>&#x200B;    &#x540C;1s&#x53D1;&#x8D77;&#x7684;&#x79D2;&#x6740;, &#x7531;&#x4E8E;&#x670D;&#x52A1;&#x5668;&#x591A;&#x53F0;&#x4E4B;&#x95F4;&#x65F6;&#x95F4;&#x6709;&#x8BEF;&#x5DEE;, &#x843D;&#x5230;A&#x670D;&#x52A1;&#x5668;&#x79D2;&#x6740;&#x6210;&#x529F;, &#x843D;&#x5230;B&#x670D;&#x52A1;&#x5668;&#x7684;&#x79D2;&#x6740;&#x8FD8;&#x6CA1;&#x5F00;&#x59CB;, &#x4E1A;&#x52A1;&#x4E0A;&#x53EF;&#x4EE5;&#x63A5;&#x53D7;(&#x7528;&#x6237;&#x611F;&#x77E5;&#x4E0D;&#x5230;).</p>
+<p>&#x200B;    &#x6240;&#x4EE5;&#x5927;&#x90E8;&#x5206;&#x4E1A;&#x52A1;, &#x957F;&#x65F6;&#x95F4;&#x8D8B;&#x52BF;&#x9012;&#x589E;&#x7684;&#x65F6;&#x5E8F;&#x80FD;&#x591F;&#x6EE1;&#x8DB3;&#x4E1A;&#x52A1;&#x9700;&#x6C42;, &#x975E;&#x5E38;&#x77ED;&#x65F6;&#x95F4;&#x65F6;&#x5E8F;&#x8BEF;&#x5DEE;&#x4E00;&#x5B9A;&#x7A0B;&#x5EA6;&#x53EF;&#x4EE5;&#x63A5;&#x53D7;.</p>
+<h4 id="21-im&#x5355;&#x804A;&#x4E2D;-&#x5982;&#x4F55;&#x4FDD;&#x8BC1;&#x53D1;&#x9001;&#x987A;&#x5E8F;&#x548C;&#x63A5;&#x53D7;&#x987A;&#x5E8F;">2.1 IM&#x5355;&#x804A;&#x4E2D;, &#x5982;&#x4F55;&#x4FDD;&#x8BC1;&#x53D1;&#x9001;&#x987A;&#x5E8F;&#x548C;&#x63A5;&#x53D7;&#x987A;&#x5E8F;</h4>
+<p>&#x200B;    IM&#x4E2D;&#x5355;&#x4EBA;&#x804A;&#x5929;&#x9700;&#x6C42;, &#x53D1;&#x9001;A&#x4F9D;&#x6B21;&#x53D1;&#x9001;msg1, msg2, msg3&#x7ED9;&#x63A5;&#x6536;&#x65B9;B, &#x4E09;&#x6761;&#x6D88;&#x606F;&#x80FD;&#x5426;&#x4FDD;&#x8BC1;&#x65F6;&#x5E8F;&#x7684;&#x4E00;&#x81F4;&#x6027;(&#x53D1;&#x9001;&#x548C;&#x663E;&#x793A;&#x7684;&#x987A;&#x5E8F;&#x4E00;&#x81F4;)</p>
+<p>&#x200B;    &#x5982;&#x4F55;&#x5229;&#x7528;&#x5229;&#x7528;&#x670D;&#x52A1;&#x5668;&#x5355;&#x70B9;&#x5E8F;&#x5217;&#x5316;&#x65F6;&#x5E8F;, &#x53EF;&#x80FD;&#x4F1A;&#x51FA;&#x73B0;&#x670D;&#x52A1;&#x7AEF;&#x63A5;&#x53D7;&#x6D88;&#x606F;&#x7684;&#x65F6;&#x5E8F;&#x4E3A;msg3, msg1, msg2, &#x4E0E;&#x53D1;&#x51FA;&#x5E8F;&#x5217;&#x4E0D;&#x4E00;&#x81F4;.</p>
+<p>&#x200B;    &#x4E1A;&#x52A1;&#x4E0A;&#x4E0D;&#x9700;&#x8981;&#x5168;&#x5C40;&#x6D88;&#x606F;&#x4E00;&#x81F4;, &#x53EA;&#x9700;&#x8981;&#x5BF9;&#x540C;&#x4E00;&#x53D1;&#x9001;A, &#x7ED9;B&#x7684;&#x6D88;&#x606F;&#x65F6;&#x5E8F;&#x4E00;&#x81F4;&#x5C31;&#x884C;, &#x5E38;&#x89C1;&#x4F18;&#x5316;&#x65B9;&#x6848;, &#x5728;A&#x5411;B&#x53D1;&#x9001;&#x6D88;&#x606F;&#x4E2D;, &#x52A0;&#x4E0A;&#x53D1;&#x9001;&#x65B9;&#x7684;&#x4E00;&#x4E2A;&#x7EDD;&#x5BF9;&#x65F6;&#x5E8F;, &#x8868;&#x793A;&#x63A5;&#x6536;&#x65B9;B&#x7684;&#x5C55;&#x73B0;&#x65F6;&#x5E8F;.</p>
+<p>&#x200B;    <img src="pic/1556714252604.png" alt="1556714252604"></p>
+<p>&#x5982;&#x679C;&#x63A5;&#x6536;&#x65B9;B&#x5148;&#x6536;&#x5230;msg3, msg3&#x4F1A;&#x5148;&#x5C55;&#x73B0;, &#x540E;&#x6536;&#x5230;msg1&#x548C;msg2&#x540E;, &#x4F1A;&#x5C55;&#x73B0;&#x5728;msg3&#x7684;&#x524D;&#x9762;.</p>
+<h4 id="22im&#x7FA4;&#x804A;&#x6D88;&#x606F;-&#x5982;&#x4F55;&#x4FDD;&#x8BC1;&#x63A5;&#x6536;&#x65B9;&#x987A;&#x5E8F;&#x4E00;&#x81F4;">2.2IM&#x7FA4;&#x804A;&#x6D88;&#x606F;, &#x5982;&#x4F55;&#x4FDD;&#x8BC1;&#x63A5;&#x6536;&#x65B9;&#x987A;&#x5E8F;&#x4E00;&#x81F4;.</h4>
+<p>IM&#x7FA4;&#x6D88;&#x606F;&#x9700;&#x6C42;, N&#x4E2A;&#x7FA4;&#x53CB;&#x5728;&#x4E00;&#x4E2A;&#x7FA4;, &#x5982;&#x4F55;&#x4FDD;&#x8BC1;&#x6240;&#x6709;&#x4EBA;&#x6536;&#x5230;&#x6D88;&#x606F;&#x5C55;&#x793A;&#x65F6;&#x5E8F;&#x4E00;&#x81F4;?</p>
+<p>&#x6B64;&#x65F6;&#x4E0D;&#x80FD;&#x5229;&#x7528;&#x53D1;&#x9001;&#x65B9;&#x7684;seq&#x4FDD;&#x8BC1;&#x65F6;&#x5E8F;, &#x56E0;&#x4E3A;&#x53D1;&#x9001;&#x65B9;&#x4E0D;&#x5355;&#x70B9;, &#x65F6;&#x95F4;&#x4E0D;&#x4E00;&#x81F4;.</p>
+<p>&#x53EF;&#x4EE5;&#x5229;&#x7528;&#x670D;&#x52A1;&#x5668;&#x5355;&#x70B9;.</p>
+<p><img src="pic/1556714575959.png" alt="1556714575959"></p>
+<p>send1&#x53D1;&#x51FA;msg1, send2&#x53D1;&#x51FA;msg2.</p>
+<p>sercice&#x5E95;&#x5C42;&#x53EF;&#x4EE5;&#x62FF;&#x5230;&#x4E00;&#x4E2A;&#x552F;&#x4E00;seq, &#x786E;&#x5B9A;&#x63A5;&#x6536;&#x65B9;&#x5C55;&#x73B0;&#x65F6;&#x5E8F;.</p>
+<p>service&#x62FF;&#x5230;msg2&#x7684;seq&#x662F;20, msg1&#x7684;seq&#x662F;30.</p>
+<p>&#x901A;&#x8FC7;&#x6295;&#x9012;&#x670D;&#x52A1;&#x5C06;&#x6D88;&#x606F;&#x7ED9;&#x591A;&#x4E2A;&#x7FA4;&#x53CB;, &#x7FA4;&#x53CB;&#x5373;&#x4F7F;&#x63A5;&#x53D7;msg1&#x548C;msg2&#x65F6;&#x95F4;&#x4E0D;&#x540C;, &#x4F46;&#x662F;&#x53EF;&#x4EE5;&#x7EDF;&#x4E00;&#x6309;&#x7167;seq&#x5C55;&#x73B0;.</p>
+<p>&#x8FD9;&#x4E2A;&#x65B9;&#x5F0F;&#x80FD;&#x5B9E;&#x73B0;&#x6240;&#x6709;&#x7FA4;&#x53CB;&#x6D88;&#x606F;&#x5C55;&#x793A;&#x65F6;&#x5E8F;&#x76F8;&#x540C;, &#x7F3A;&#x70B9;&#x662F;&#x8FD9;&#x4E2A;&#x751F;&#x6210;&#x7684;&#x5168;&#x5C40;&#x9012;&#x589E;&#x5E8F;&#x5217;&#x53F7;&#x670D;&#x52A1;&#x5BB9;&#x6613;&#x6210;&#x4E3A;&#x7CFB;&#x7EDF;&#x74F6;&#x9888;.</p>
+<p>&#x4F18;&#x5316; : &#x7FA4;&#x6D88;&#x606F;&#x5176;&#x5B9E;&#x4E0D;&#x7528;&#x4FDD;&#x8BC1;&#x5168;&#x5C40;&#x6D88;&#x606F;&#x6709;&#x5E8F;, &#x53EA;&#x8981;&#x4FDD;&#x8BC1;&#x4E00;&#x4E2A;&#x7FA4;&#x5185;&#x7684;&#x6D88;&#x606F;&#x6709;&#x5E8F;&#x5373;&#x53EF;, &#x8FD9;&#x6837;id&#x4E32;&#x884C;&#x5316;&#x6210;&#x4E86;&#x4E00;&#x4E2A;&#x5F88;&#x597D;&#x601D;&#x8DEF;.</p>
+<p>&#x200B;    &#x8FD9;&#x4E2A;&#x65B9;&#x6848;&#x4E2D;service&#x5C42;&#x4E0D;&#x9700;&#x53BB;&#x4E00;&#x4E2A;&#x7EDF;&#x4E00;&#x7684;&#x540E;&#x7AEF;&#x62FF;&#x5168;&#x5C40;seq, &#x800C;&#x662F;service&#x8FDE;&#x63A5;&#x6C60;&#x505A;&#x4E86;&#x7EC6;&#x5C0F;&#x6539;&#x9020;, &#x4FDD;&#x8BC1;&#x4E00;&#x4E2A;&#x7FA4;&#x5185;&#x6D88;&#x606F;&#x843D;&#x5728;&#x540C;&#x4E00;&#x4E2A;service&#x4E0A;, &#x8FD9;&#x4E2A;service&#x53EF;&#x4EE5;&#x7528;&#x672C;&#x5730;seq&#x5E8F;&#x5217;&#x5316;&#x540C;&#x4E00;&#x4E2A;&#x7FA4;&#x6240;&#x6709;&#x6D88;&#x606F;, &#x4FDD;&#x8BC1;&#x6240;&#x6709;&#x7FA4;&#x53CB;&#x6D88;&#x606F;&#x65F6;&#x5E8F;&#x662F;&#x76F8;&#x540C;.</p>
+<h2 id="3&#x53C2;&#x8003;">3.&#x53C2;&#x8003;.</h2>
+<p><a href="https://www.jianshu.com/p/386b550775fb" target="_blank">https://www.jianshu.com/p/386b550775fb</a></p>
+<h2 id="4&#x603B;&#x7ED3;">4.&#x603B;&#x7ED3;</h2>
+<p>&#x5206;&#x5E03;&#x5F0F;&#x73AF;&#x5883;&#x4E0B;, &#x6D88;&#x606F;&#x7684;&#x6709;&#x5E8F;&#x6027;&#x5F88;&#x96BE;&#x4FDD;&#x8BC1;, &#x6BD4;&#x5982;&#x65F6;&#x949F;&#x4E0D;&#x4E00;&#x81F4;, &#x591A;&#x53D1;&#x9001;&#x65B9;, &#x591A;&#x63A5;&#x53D7;&#x65B9;, &#x591A;&#x7EBF;&#x7A0B;&#x548C;&#x7F51;&#x7EDC;&#x4F20;&#x8F93;&#x7684;&#x4E0D;&#x786E;&#x5B9A;&#x6027;.</p>
+<p>&#x4F46;&#x662F;&#x5BF9;&#x4E8E;IM&#x804A;&#x5929;&#x6765;&#x8BF4;, &#x6D88;&#x606F;id&#x53EF;&#x4EE5;&#x5BB9;&#x5FCD;&#x975E;&#x5E38;&#x77ED;&#x65F6;&#x95F4;&#x5185;&#x7684;&#x65F6;&#x95F4;&#x8BEF;&#x5DEE;. &#x53EA;&#x8981;&#x80FD;&#x4FDD;&#x8BC1;&#x8D8B;&#x52BF;&#x9012;&#x589E;&#x5373;&#x53EF;.</p>
+<p>&#x6240;&#x4EE5;&#x5728;&#x6211;&#x7684;IM&#x7CFB;&#x7EDF;&#x4E2D;, &#x91C7;&#x7528;facebook&#x7684;snowflake&#x6765;&#x5B9E;&#x73B0;&#x6D88;&#x606F;id&#x7684;&#x751F;&#x6210;. snowflake&#x4E5F;&#x662F;&#x8D8B;&#x52BF;&#x9012;&#x589E;&#x7684;. &#x53EF;&#x4EE5;&#x6EE1;&#x8DB3;&#x5F53;&#x524D;&#x573A;&#x666F;.</p>
+<h2 id="5&#x6D88;&#x606F;id&#x751F;&#x6210;&#x67B6;&#x6784;">5.&#x6D88;&#x606F;id&#x751F;&#x6210;&#x67B6;&#x6784;</h2>
+<p><img src="pic/1556719828514.png" alt="1556719828514"></p>
+<p>&#x539F;&#x8C05;&#x6211;&#x7528;&#x7684;&#x753B;&#x56FE;&#x5DE5;&#x5177;, &#x5B9E;&#x5728;&#x627E;&#x4E0D;&#x5230;&#x4E0D;&#x9519;&#x7684;&#x7075;&#x6D3B;&#x81EA;&#x5982;&#x7684;&#x753B;&#x56FE;&#x5DE5;&#x5177;.</p>
+<p>&#x4E0B;&#x9762;&#x662F;snowflake&#x751F;&#x6210;&#x7684;id&#x7684;&#x6570;&#x636E;&#x683C;&#x5F0F;:</p>
+<pre><code class="lang-java"><span class="hljs-number">0</span> - <span class="hljs-number">0000000000</span> <span class="hljs-number">0000000000</span> <span class="hljs-number">0000000000</span> <span class="hljs-number">0000000000</span> <span class="hljs-number">0</span> - <span class="hljs-number">00000</span> - <span class="hljs-number">00000</span> - <span class="hljs-number">000000000000</span>
+</code></pre>
+<ul>
+<li>1&#x4F4D;&#x6807;&#x8BC6;&#xFF0C;&#x7531;&#x4E8E;long&#x57FA;&#x672C;&#x7C7B;&#x578B;&#x5728;Java&#x4E2D;&#x662F;&#x5E26;&#x7B26;&#x53F7;&#x7684;&#xFF0C;&#x6700;&#x9AD8;&#x4F4D;&#x662F;&#x7B26;&#x53F7;&#x4F4D;&#xFF0C;&#x6B63;&#x6570;&#x662F;0&#xFF0C;&#x8D1F;&#x6570;&#x662F;1&#xFF0C;&#x6240;&#x4EE5;id&#x4E00;&#x822C;&#x662F;&#x6B63;&#x6570;&#xFF0C;&#x6700;&#x9AD8;&#x4F4D;&#x662F;0</li>
+<li>41&#x4F4D;&#x65F6;&#x95F4;&#x6233;(&#x6BEB;&#x79D2;&#x7EA7;)&#xFF0C;&#x6CE8;&#x610F;&#xFF0C;41&#x4F4D;&#x65F6;&#x95F4;&#x6233;&#x4E0D;&#x662F;&#x5B58;&#x50A8;&#x5F53;&#x524D;&#x65F6;&#x95F4;&#x7684;&#x65F6;&#x95F4;&#x6233;&#xFF0C;&#x800C;&#x662F;&#x5B58;&#x50A8;&#x65F6;&#x95F4;&#x6233;&#x7684;&#x5DEE;&#x503C;&#xFF08;&#x5F53;&#x524D;&#x65F6;&#x95F4;&#x6233; -&#x5F00;&#x59CB;&#x65F6;&#x95F4;&#x6233;)&#x5F97;&#x5230;&#x7684;&#x503C;&#xFF09;&#xFF0C;&#x8FD9;&#x91CC;&#x7684;&#x7684;&#x5F00;&#x59CB;&#x65F6;&#x95F4;&#x6233;&#xFF0C;&#x4E00;&#x822C;&#x662F;&#x6211;&#x4EEC;&#x7684;id&#x751F;&#x6210;&#x5668;&#x5F00;&#x59CB;&#x4F7F;&#x7528;&#x7684;&#x65F6;&#x95F4;&#xFF0C;&#x7531;&#x6211;&#x4EEC;&#x7A0B;&#x5E8F;&#x6765;&#x6307;&#x5B9A;&#x7684;&#xFF08;&#x5982;&#x4E0B;&#x4E0B;&#x9762;&#x7A0B;&#x5E8F;epoch&#x5C5E;&#x6027;&#xFF09;&#x3002;41&#x4F4D;&#x7684;&#x65F6;&#x95F4;&#x6233;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;69&#x5E74;.</li>
+<li>10&#x4F4D;&#x7684;&#x6570;&#x636E;&#x673A;&#x5668;&#x4F4D;&#xFF0C;&#x53EF;&#x4EE5;&#x90E8;&#x7F72;&#x5728;1024&#x4E2A;&#x8282;&#x70B9;&#xFF0C;&#x5305;&#x62EC;5&#x4F4D;datacenterId&#x548C;5&#x4F4D;workerId.</li>
+<li>12&#x4F4D;&#x5E8F;&#x5217;&#xFF0C;&#x6BEB;&#x79D2;&#x5185;&#x7684;&#x8BA1;&#x6570;&#xFF0C;12&#x4F4D;&#x7684;&#x8BA1;&#x6570;&#x987A;&#x5E8F;&#x53F7;&#x652F;&#x6301;&#x6BCF;&#x4E2A;&#x8282;&#x70B9;&#x6BCF;&#x6BEB;&#x79D2;(&#x540C;&#x4E00;&#x673A;&#x5668;&#xFF0C;&#x540C;&#x4E00;&#x65F6;&#x95F4;&#x6233;)&#x4EA7;&#x751F;4096&#x4E2A;ID&#x5E8F;&#x53F7;&#x52A0;&#x8D77;&#x6765;&#x521A;&#x597D;64&#x4F4D;&#xFF0C;&#x4E3A;&#x4E00;&#x4E2A;Long&#x578B;&#x3002;</li>
+</ul>
+<p>&#x8FD9;&#x91CC;&#x6211;&#x4EEC;&#x4F7F;&#x7528;zookeeper&#x6765;&#x7BA1;&#x7406;&#x6570;&#x636E;&#x673A;&#x5668;&#x7801;, &#x4FBF;&#x4E8E;&#x6269;&#x5C55;, &#x4E0D;&#x7528;&#x6BCF;&#x4E2A;&#x670D;&#x52A1;&#x7EF4;&#x62A4;&#x4E0D;&#x540C;&#x7684;&#x673A;&#x5668;&#x7801;.</p>
+<p>&#x5B9A;&#x4E49;zookeeper&#x7BA1;&#x7406;&#x673A;&#x5668;&#x4F4D;&#x8DEF;&#x5F84;: /slim/worker_id/{workerId}</p>
+<p>&#x4F7F;&#x7528;&#x4E34;&#x65F6;&#x8282;&#x70B9;.</p>
+<ol>
+<li>service&#x542F;&#x52A8;&#x65F6;&#x5019;, snowflake&#x6A21;&#x5757;&#x8FDE;&#x63A5;zookeeper.</li>
+<li>&#x83B7;&#x53D6;&#x7236;&#x8282;&#x70B9;/slim/worker_id&#x4E0B;&#x6240;&#x6709;&#x5B50;&#x8282;&#x70B9;&#x7684;name.</li>
+<li>&#x5F53;&#x524D;&#x673A;&#x5668;&#x4ECE;0~1023&#x4E2A;workerId&#x5F00;&#x59CB;&#x904D;&#x5386;, &#x67E5;&#x627E;&#x672A;&#x88AB;&#x6CE8;&#x518C;&#x7684;workerId ( childNodeName.contain(workerId) ).</li>
+<li>&#x5F53;&#x904D;&#x5386;&#x5230;workerId=10, &#x53D1;&#x73B0;&#x6B64;workerId&#x672A;&#x88AB;&#x5176;&#x4ED6;&#x673A;&#x5668;&#x6CE8;&#x518C;. &#x5373;&#x5411;zk&#x6CE8;&#x518C;&#x4E34;&#x65F6;&#x8282;&#x70B9;/slim/worker_id/10.</li>
+<li>&#x5F53;&#x904D;&#x5386;&#x4E2D;&#x53D1;&#x73B0;workerId&#x5DF2;&#x7ECF;&#x88AB;&#x6CE8;&#x518C;, &#x5219;&#x904D;&#x5386;&#x4E0B;&#x4E00;&#x4E2A;.</li>
+</ol>
+<h2 id="6snowflake&#x7B97;&#x6CD5;">6.snowflake&#x7B97;&#x6CD5;</h2>
+<p>&#x5F88;&#x6709;&#x5FC5;&#x8981;&#x770B;&#x770B;&#x5982;&#x4F55;&#x5B9E;&#x73B0;&#x8D8B;&#x52BF;&#x9012;&#x589E;&#x7684;&#x7B97;&#x6CD5;.</p>
+<pre><code class="lang-java"><span class="hljs-keyword">package</span> com.imadcn.framework.idworker.algorithm;
+
+<span class="hljs-keyword">import</span> org.slf4j.Logger;
+<span class="hljs-keyword">import</span> org.slf4j.LoggerFactory;
+
+<span class="hljs-comment">/**
+ * Snowflake&#x7684;&#x7ED3;&#x6784;&#x5982;&#x4E0B;(&#x6BCF;&#x90E8;&#x5206;&#x7528;-&#x5206;&#x5F00;): &lt;br&gt;
+ * 0 - 0000000000 0000000000 0000000000 0000000000 0 - 00000 - 00000 - 000000000000 &lt;br&gt;
+ * &lt;b&gt; &#xB7; &lt;/b&gt;1&#x4F4D;&#x6807;&#x8BC6;&#xFF0C;&#x7531;&#x4E8E;long&#x57FA;&#x672C;&#x7C7B;&#x578B;&#x5728;Java&#x4E2D;&#x662F;&#x5E26;&#x7B26;&#x53F7;&#x7684;&#xFF0C;&#x6700;&#x9AD8;&#x4F4D;&#x662F;&#x7B26;&#x53F7;&#x4F4D;&#xFF0C;&#x6B63;&#x6570;&#x662F;0&#xFF0C;&#x8D1F;&#x6570;&#x662F;1&#xFF0C;&#x6240;&#x4EE5;id&#x4E00;&#x822C;&#x662F;&#x6B63;&#x6570;&#xFF0C;&#x6700;&#x9AD8;&#x4F4D;&#x662F;0 &lt;br&gt;
+ * &lt;b&gt; &#xB7; &lt;/b&gt;41&#x4F4D;&#x65F6;&#x95F4;&#x6233;(&#x6BEB;&#x79D2;&#x7EA7;)&#xFF0C;&#x6CE8;&#x610F;&#xFF0C;41&#x4F4D;&#x65F6;&#x95F4;&#x6233;&#x4E0D;&#x662F;&#x5B58;&#x50A8;&#x5F53;&#x524D;&#x65F6;&#x95F4;&#x7684;&#x65F6;&#x95F4;&#x6233;&#xFF0C;&#x800C;&#x662F;&#x5B58;&#x50A8;&#x65F6;&#x95F4;&#x6233;&#x7684;&#x5DEE;&#x503C;&#xFF08;&#x5F53;&#x524D;&#x65F6;&#x95F4;&#x6233; -
+ * &#x5F00;&#x59CB;&#x65F6;&#x95F4;&#x6233;)&#x5F97;&#x5230;&#x7684;&#x503C;&#xFF09;&#xFF0C;&#x8FD9;&#x91CC;&#x7684;&#x7684;&#x5F00;&#x59CB;&#x65F6;&#x95F4;&#x6233;&#xFF0C;&#x4E00;&#x822C;&#x662F;&#x6211;&#x4EEC;&#x7684;id&#x751F;&#x6210;&#x5668;&#x5F00;&#x59CB;&#x4F7F;&#x7528;&#x7684;&#x65F6;&#x95F4;&#xFF0C;&#x7531;&#x6211;&#x4EEC;&#x7A0B;&#x5E8F;&#x6765;&#x6307;&#x5B9A;&#x7684;&#xFF08;&#x5982;&#x4E0B;&#x4E0B;&#x9762;&#x7A0B;&#x5E8F;epoch&#x5C5E;&#x6027;&#xFF09;&#x3002;41&#x4F4D;&#x7684;&#x65F6;&#x95F4;&#x6233;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;69&#x5E74;
+ * &lt;br&gt;
+ * &lt;b&gt; &#xB7; &lt;/b&gt;10&#x4F4D;&#x7684;&#x6570;&#x636E;&#x673A;&#x5668;&#x4F4D;&#xFF0C;&#x53EF;&#x4EE5;&#x90E8;&#x7F72;&#x5728;1024&#x4E2A;&#x8282;&#x70B9;&#xFF0C;&#x5305;&#x62EC;5&#x4F4D;datacenterId&#x548C;5&#x4F4D;workerId &lt;br&gt;
+ * &lt;b&gt; &#xB7; &lt;/b&gt;12&#x4F4D;&#x5E8F;&#x5217;&#xFF0C;&#x6BEB;&#x79D2;&#x5185;&#x7684;&#x8BA1;&#x6570;&#xFF0C;12&#x4F4D;&#x7684;&#x8BA1;&#x6570;&#x987A;&#x5E8F;&#x53F7;&#x652F;&#x6301;&#x6BCF;&#x4E2A;&#x8282;&#x70B9;&#x6BCF;&#x6BEB;&#x79D2;(&#x540C;&#x4E00;&#x673A;&#x5668;&#xFF0C;&#x540C;&#x4E00;&#x65F6;&#x95F4;&#x6233;)&#x4EA7;&#x751F;4096&#x4E2A;ID&#x5E8F;&#x53F7;
+ * &#x52A0;&#x8D77;&#x6765;&#x521A;&#x597D;64&#x4F4D;&#xFF0C;&#x4E3A;&#x4E00;&#x4E2A;Long&#x578B;&#x3002;
+ * &lt;p&gt;
+ * SnowFlake&#x7684;&#x4F18;&#x70B9;&#x662F;&#xFF0C;&#x6574;&#x4F53;&#x4E0A;&#x6309;&#x7167;&#x65F6;&#x95F4;&#x81EA;&#x589E;&#x6392;&#x5E8F;&#xFF0C;&#x5E76;&#x4E14;&#x6574;&#x4E2A;&#x5206;&#x5E03;&#x5F0F;&#x7CFB;&#x7EDF;&#x5185;&#x4E0D;&#x4F1A;&#x4EA7;&#x751F;ID&#x78B0;&#x649E;(&#x7531;&#x6570;&#x636E;&#x4E2D;&#x5FC3;ID&#x548C;&#x673A;&#x5668;ID&#x4F5C;&#x533A;&#x5206;)&#xFF0C;&#x5E76;&#x4E14;&#x6548;&#x7387;&#x8F83;&#x9AD8;&#xFF0C;&#x7ECF;&#x6D4B;&#x8BD5;&#xFF0C;SnowFlake&#x6BCF;&#x79D2;&#x80FD;&#x591F;&#x4EA7;&#x751F;26&#x4E07;ID&#x5DE6;&#x53F3;&#x3002;
+ * &lt;p&gt;
+ * &#x6CE8;&#x610F;&#x8FD9;&#x91CC;&#x8FDB;&#x884C;&#x4E86;&#x5C0F;&#x6539;&#x52A8;: &lt;br&gt;
+ * &lt;b&gt; &#xB7; &lt;/b&gt;Snowflake&#x662F;5&#x4F4D;&#x7684;datacenter&#x52A0;5&#x4F4D;&#x7684;&#x673A;&#x5668;id; &#x8FD9;&#x91CC;&#x53D8;&#x6210;&#x4F7F;&#x7528;10&#x4F4D;&#x7684;&#x673A;&#x5668;id (b) &lt;br&gt;
+ * &lt;b&gt; &#xB7; &lt;/b&gt;&#x5BF9;&#x7CFB;&#x7EDF;&#x65F6;&#x95F4;&#x7684;&#x4F9D;&#x8D56;&#x6027;&#x975E;&#x5E38;&#x5F3A;&#xFF0C;&#x9700;&#x5173;&#x95ED;ntp&#x7684;&#x65F6;&#x95F4;&#x540C;&#x6B65;&#x529F;&#x80FD;&#x3002;&#x5F53;&#x68C0;&#x6D4B;&#x5230;ntp&#x65F6;&#x95F4;&#x8C03;&#x6574;&#x540E;&#xFF0C;&#x5C06;&#x4F1A;&#x62D2;&#x7EDD;&#x5206;&#x914D;id
+ * 
+ * <span class="hljs-doctag">@author</span> yangchao
+ * <span class="hljs-doctag">@since</span> 1.0.0
+ */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Snowflake</span> </span>{
+
+   <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger logger = LoggerFactory.getLogger(Snowflake.class);
+
+   <span class="hljs-comment">/**
+    * &#x673A;&#x5668;ID
+    */</span>
+   <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> workerId;
+   <span class="hljs-comment">/**
+    * &#x65F6;&#x95F4;&#x8D77;&#x59CB;&#x6807;&#x8BB0;&#x70B9;&#xFF0C;&#x4F5C;&#x4E3A;&#x57FA;&#x51C6;&#xFF0C;&#x4E00;&#x822C;&#x53D6;&#x7CFB;&#x7EDF;&#x7684;&#x6700;&#x8FD1;&#x65F6;&#x95F4;&#xFF0C;&#x9ED8;&#x8BA4;2017-01-01
+    */</span>
+   <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> epoch = <span class="hljs-number">1483200000000L</span>;
+   <span class="hljs-comment">/**
+    * &#x673A;&#x5668;id&#x6240;&#x5360;&#x7684;&#x4F4D;&#x6570;&#xFF08;&#x6E90;&#x8BBE;&#x8BA1;&#x4E3A;5&#x4F4D;&#xFF0C;&#x8FD9;&#x91CC;&#x53D6;&#x6D88;dataCenterId&#xFF0C;&#x91C7;&#x7528;10&#x4F4D;&#xFF0C;&#x65E2;1024&#x53F0;&#xFF09;
+    */</span>
+   <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> workerIdBits = <span class="hljs-number">10L</span>;
+   <span class="hljs-comment">/**
+    * &#x673A;&#x5668;ID&#x6700;&#x5927;&#x503C;: 1023 (&#x4ECE;0&#x5F00;&#x59CB;)
+    */</span>
+   <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> maxWorkerId = -<span class="hljs-number">1L</span> ^ -<span class="hljs-number">1L</span> &lt;&lt; <span class="hljs-keyword">this</span>.workerIdBits;
+   <span class="hljs-comment">/**
+    * &#x673A;&#x5668;ID&#x5411;&#x5DE6;&#x79FB;12&#x4F4D;
+    */</span>
+   <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> workerIdShift = <span class="hljs-keyword">this</span>.sequenceBits;
+   <span class="hljs-comment">/**
+    * &#x65F6;&#x95F4;&#x6233;&#x5411;&#x5DE6;&#x79FB;22&#x4F4D;(5+5+12)
+    */</span>
+   <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> timestampLeftShift = <span class="hljs-keyword">this</span>.sequenceBits + <span class="hljs-keyword">this</span>.workerIdBits;
+   <span class="hljs-comment">/**
+    * &#x5E8F;&#x5217;&#x5728;id&#x4E2D;&#x5360;&#x7684;&#x4F4D;&#x6570;
+    */</span>
+   <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> sequenceBits = <span class="hljs-number">12L</span>;
+   <span class="hljs-comment">/**
+    * &#x751F;&#x6210;&#x5E8F;&#x5217;&#x7684;&#x63A9;&#x7801;&#xFF0C;&#x8FD9;&#x91CC;&#x4E3A;4095 (0b111111111111=0xfff=4095)&#xFF0C;12&#x4F4D;
+    */</span>
+   <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> sequenceMask = -<span class="hljs-number">1L</span> ^ -<span class="hljs-number">1L</span> &lt;&lt; <span class="hljs-keyword">this</span>.sequenceBits;
+   <span class="hljs-comment">/**
+    * &#x5E76;&#x53D1;&#x63A7;&#x5236;&#xFF0C;&#x6BEB;&#x79D2;&#x5185;&#x5E8F;&#x5217;(0~4095)
+    */</span>
+   <span class="hljs-keyword">private</span> <span class="hljs-keyword">long</span> sequence = <span class="hljs-number">0L</span>;
+   <span class="hljs-comment">/**
+    * &#x4E0A;&#x6B21;&#x751F;&#x6210;ID&#x7684;&#x65F6;&#x95F4;&#x6233;
+    */</span>
+   <span class="hljs-keyword">private</span> <span class="hljs-keyword">long</span> lastTimestamp = -<span class="hljs-number">1L</span>;
+
+   <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> HUNDRED_K = <span class="hljs-number">100_000</span>;
+
+   <span class="hljs-comment">/**
+    * &#x4F4E;&#x5E76;&#x53D1;&#x6A21;&#x5F0F;
+    */</span>
+   <span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> lowConcurrency = <span class="hljs-keyword">false</span>;
+
+   <span class="hljs-comment">/**
+    * <span class="hljs-doctag">@param</span> workerId
+    *            &#x673A;&#x5668;Id
+    */</span>
+   <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">Snowflake</span><span class="hljs-params">(<span class="hljs-keyword">long</span> workerId, <span class="hljs-keyword">boolean</span> lowConcurrency)</span> </span>{
+      <span class="hljs-keyword">if</span> (workerId &gt; <span class="hljs-keyword">this</span>.maxWorkerId || workerId &lt; <span class="hljs-number">0</span>) {
+         String message = String.format(<span class="hljs-string">&quot;worker Id can&apos;t be greater than %d or less than 0&quot;</span>, <span class="hljs-keyword">this</span>.maxWorkerId);
+         <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(message);
+      }
+      <span class="hljs-keyword">this</span>.workerId = workerId;
+      <span class="hljs-keyword">this</span>.lowConcurrency = lowConcurrency;
+   }
+
+   <span class="hljs-comment">/**
+    * Snowflake Builder
+    * 
+    * <span class="hljs-doctag">@param</span> workerId
+    *            workerId
+    * <span class="hljs-doctag">@return</span> Snowflake Instance
+    */</span>
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Snowflake <span class="hljs-title">create</span><span class="hljs-params">(<span class="hljs-keyword">long</span> workerId)</span> </span>{
+      <span class="hljs-keyword">return</span> create(workerId, <span class="hljs-keyword">false</span>);
+   }
+
+   <span class="hljs-comment">/**
+    * Snowflake Builder
+    * 
+    * <span class="hljs-doctag">@param</span> workerId
+    *            workerId
+    * <span class="hljs-doctag">@return</span> Snowflake Instance
+    */</span>
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Snowflake <span class="hljs-title">create</span><span class="hljs-params">(<span class="hljs-keyword">long</span> workerId, <span class="hljs-keyword">boolean</span> lowConcurrency)</span> </span>{
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Snowflake(workerId, lowConcurrency);
+   }
+
+   <span class="hljs-comment">/**
+    * &#x6279;&#x91CF;&#x83B7;&#x53D6;ID
+    * 
+    * <span class="hljs-doctag">@param</span> size
+    *            &#x83B7;&#x53D6;&#x5927;&#x5C0F;&#xFF0C;&#x6700;&#x591A;10&#x4E07;&#x4E2A;
+    * <span class="hljs-doctag">@return</span> SnowflakeId
+    */</span>
+   <span class="hljs-keyword">public</span> <span class="hljs-keyword">long</span>[] nextId(<span class="hljs-keyword">int</span> size) {
+      <span class="hljs-keyword">if</span> (size &lt;= <span class="hljs-number">0</span> || size &gt; HUNDRED_K) {
+         String message = String.format(<span class="hljs-string">&quot;Size can&apos;t be greater than %d or less than 0&quot;</span>, HUNDRED_K);
+         <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(message);
+      }
+      <span class="hljs-keyword">long</span>[] ids = <span class="hljs-keyword">new</span> <span class="hljs-keyword">long</span>[size];
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; size; i++) {
+         ids[i] = nextId();
+      }
+      <span class="hljs-keyword">return</span> ids;
+   }
+
+   <span class="hljs-comment">/**
+    * &#x83B7;&#x5F97;ID
+    * <span class="hljs-doctag">@return</span> SnowflakeId
+    */</span>
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">long</span> <span class="hljs-title">nextId</span><span class="hljs-params">()</span> </span>{
+      <span class="hljs-keyword">return</span> lowConcurrency ? nextIdOnLowConcurrency() : nextIdOnHighConcurrency();
+   }
+
+   <span class="hljs-comment">/**
+    * &#x9AD8;&#x5E76;&#x53D1;&#x6A21;&#x5F0F;
+    * &lt;p&gt; &#x5B98;&#x65B9;&#x6807;&#x51C6;&#x7B97;&#x6CD5;
+    * <span class="hljs-doctag">@return</span> SnowflakeId
+    * <span class="hljs-doctag">@since</span> 1.2.5
+    */</span>
+   <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">long</span> <span class="hljs-title">nextIdOnHighConcurrency</span><span class="hljs-params">()</span> </span>{
+      <span class="hljs-keyword">long</span> timestamp = timeGen();
+      <span class="hljs-comment">// &#x5982;&#x679C;&#x4E0A;&#x4E00;&#x4E2A;timestamp&#x4E0E;&#x65B0;&#x4EA7;&#x751F;&#x7684;&#x76F8;&#x7B49;&#xFF0C;&#x5219;sequence&#x52A0;&#x4E00;(0-4095&#x5FAA;&#x73AF;);</span>
+      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.lastTimestamp == timestamp) {
+         <span class="hljs-comment">// &#x5BF9;&#x65B0;&#x7684;timestamp&#xFF0C;sequence&#x4ECE;0&#x5F00;&#x59CB;</span>
+         <span class="hljs-keyword">this</span>.sequence = <span class="hljs-keyword">this</span>.sequence + <span class="hljs-number">1</span> &amp; <span class="hljs-keyword">this</span>.sequenceMask;
+         <span class="hljs-comment">// &#x6BEB;&#x79D2;&#x5185;&#x5E8F;&#x5217;&#x6EA2;&#x51FA;</span>
+         <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.sequence == <span class="hljs-number">0</span>) {
+            <span class="hljs-comment">// &#x963B;&#x585E;&#x5230;&#x4E0B;&#x4E00;&#x4E2A;&#x6BEB;&#x79D2;,&#x83B7;&#x5F97;&#x65B0;&#x7684;&#x65F6;&#x95F4;&#x6233;</span>
+            timestamp = <span class="hljs-keyword">this</span>.tilNextMillis(<span class="hljs-keyword">this</span>.lastTimestamp);
+         }
+      } <span class="hljs-keyword">else</span> {
+         <span class="hljs-comment">// &#x65F6;&#x95F4;&#x6233;&#x6539;&#x53D8;&#xFF0C;&#x6BEB;&#x79D2;&#x5185;&#x5E8F;&#x5217;&#x91CD;&#x7F6E;</span>
+         <span class="hljs-keyword">this</span>.sequence = <span class="hljs-number">0</span>;
+      }
+      <span class="hljs-comment">// &#x5982;&#x679C;&#x5F53;&#x524D;&#x65F6;&#x95F4;&#x5C0F;&#x4E8E;&#x4E0A;&#x4E00;&#x6B21;ID&#x751F;&#x6210;&#x7684;&#x65F6;&#x95F4;&#x6233;&#xFF0C;&#x8BF4;&#x660E;&#x7CFB;&#x7EDF;&#x65F6;&#x949F;&#x56DE;&#x9000;&#x8FC7;&#x8FD9;&#x4E2A;&#x65F6;&#x5019;&#x5E94;&#x5F53;&#x629B;&#x51FA;&#x5F02;&#x5E38;</span>
+      <span class="hljs-keyword">if</span> (timestamp &lt; <span class="hljs-keyword">this</span>.lastTimestamp) {
+         String message = String.format(<span class="hljs-string">&quot;Clock moved backwards. Refusing to generate id for %d milliseconds.&quot;</span>, (<span class="hljs-keyword">this</span>.lastTimestamp - timestamp));
+         logger.error(message);
+         <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(message);
+      }
+      <span class="hljs-keyword">this</span>.lastTimestamp = timestamp;
+      <span class="hljs-comment">// &#x79FB;&#x4F4D;&#x5E76;&#x901A;&#x8FC7;&#x6216;&#x8FD0;&#x7B97;&#x62FC;&#x5230;&#x4E00;&#x8D77;&#x7EC4;&#x6210;64&#x4F4D;&#x7684;ID</span>
+      <span class="hljs-keyword">return</span> timestamp - <span class="hljs-keyword">this</span>.epoch &lt;&lt; <span class="hljs-keyword">this</span>.timestampLeftShift | <span class="hljs-keyword">this</span>.workerId &lt;&lt; <span class="hljs-keyword">this</span>.workerIdShift | <span class="hljs-keyword">this</span>.sequence;
+   }
+
+   <span class="hljs-comment">/**
+    * &#x4F4E;&#x5E76;&#x53D1;&#x6A21;&#x5F0F;
+    * &lt;p&gt;&#x96EA;&#x82B1;&#x7B97;&#x6CD5;&#x9ED8;&#x8BA4;&#x5B9E;&#x73B0;&#x5728;&#x8C03;&#x7528;&#x9891;&#x6B21;&#x4F4E;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x90FD;&#x662F;&#x57AE;&#x6BEB;&#x79D2;&#x751F;&#x6210;&#xFF0C;&#x5BFC;&#x81F4;sequence&#x5168;&#x662F;0&#xFF0C;&#x6700;&#x7EC8;&#x6570;&#x636E;&#x90FD;&#x662F;&#x5076;&#x6570;&#xFF0C;&#x5947;&#x5076;&#x4E0D;&#x5E73;&#x5747;&#x3002;&#x6B64;&#x6A21;&#x5F0F;&#x4E0B;sequence&#x5168;&#x5C40;&#x81EA;&#x589E;&#xFF0C;&#x540C;ms&#x5185;&#x6EA2;&#x51FA;&#x540E;&#xFF0C;&#x7B49;&#x5F85;&#x4E0B;1ms&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x6BCF;&#x6B21;&#x90FD;&#x7F6E;&#x96F6;&#x3002;
+    * <span class="hljs-doctag">@return</span> SnowflakeId
+    * <span class="hljs-doctag">@since</span> 1.2.5
+    */</span>
+   <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">long</span> <span class="hljs-title">nextIdOnLowConcurrency</span><span class="hljs-params">()</span> </span>{
+      <span class="hljs-keyword">long</span> timestamp = timeGen();
+      <span class="hljs-comment">// &#x5982;&#x679C;&#x5F53;&#x524D;&#x65F6;&#x95F4;&#x5C0F;&#x4E8E;&#x4E0A;&#x4E00;&#x6B21;ID&#x751F;&#x6210;&#x7684;&#x65F6;&#x95F4;&#x6233;&#xFF0C;&#x8BF4;&#x660E;&#x7CFB;&#x7EDF;&#x65F6;&#x949F;&#x56DE;&#x9000;&#x8FC7;&#x8FD9;&#x4E2A;&#x65F6;&#x5019;&#x5E94;&#x5F53;&#x629B;&#x51FA;&#x5F02;&#x5E38;</span>
+      <span class="hljs-keyword">if</span> (timestamp &lt; <span class="hljs-keyword">this</span>.lastTimestamp) {
+         String message = String.format(<span class="hljs-string">&quot;Clock moved backwards. Refusing to generate id for %d milliseconds.&quot;</span>, (<span class="hljs-keyword">this</span>.lastTimestamp - timestamp));
+         logger.error(message);
+         <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(message);
+      }
+      <span class="hljs-comment">// &#x5168;&#x5C40;&#x9012;&#x589E;</span>
+      <span class="hljs-keyword">this</span>.sequence = <span class="hljs-keyword">this</span>.sequence + <span class="hljs-number">1</span> &amp; <span class="hljs-keyword">this</span>.sequenceMask;
+      <span class="hljs-comment">// &#x6EA2;&#x51FA;&#x540E;&#xFF0C;&#x7B49;&#x5F85;&#x4E0B;&#x4E00;&#x7A97;&#x53E3;</span>
+      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.sequence == <span class="hljs-number">0</span> &amp;&amp; <span class="hljs-keyword">this</span>.lastTimestamp == timestamp) {
+         <span class="hljs-comment">// &#x963B;&#x585E;&#x5230;&#x4E0B;&#x4E00;&#x4E2A;&#x6BEB;&#x79D2;,&#x83B7;&#x5F97;&#x65B0;&#x7684;&#x65F6;&#x95F4;&#x6233;</span>
+         timestamp = <span class="hljs-keyword">this</span>.tilNextMillis(<span class="hljs-keyword">this</span>.lastTimestamp);
+      }
+
+      <span class="hljs-keyword">this</span>.lastTimestamp = timestamp;
+      <span class="hljs-comment">// &#x79FB;&#x4F4D;&#x5E76;&#x901A;&#x8FC7;&#x6216;&#x8FD0;&#x7B97;&#x62FC;&#x5230;&#x4E00;&#x8D77;&#x7EC4;&#x6210;64&#x4F4D;&#x7684;ID</span>
+      <span class="hljs-keyword">return</span> timestamp - <span class="hljs-keyword">this</span>.epoch &lt;&lt; <span class="hljs-keyword">this</span>.timestampLeftShift | <span class="hljs-keyword">this</span>.workerId &lt;&lt; <span class="hljs-keyword">this</span>.workerIdShift | <span class="hljs-keyword">this</span>.sequence;
+   }
+
+   <span class="hljs-comment">/**
+    * &#x7B49;&#x5F85;&#x4E0B;&#x4E00;&#x4E2A;&#x6BEB;&#x79D2;&#x7684;&#x5230;&#x6765;, &#x4FDD;&#x8BC1;&#x8FD4;&#x56DE;&#x7684;&#x6BEB;&#x79D2;&#x6570;&#x5728;&#x53C2;&#x6570;lastTimestamp&#x4E4B;&#x540E;
+    * <span class="hljs-doctag">@param</span> lastTimestamp &#x4E0A;&#x6B21;&#x751F;&#x6210;ID&#x7684;&#x65F6;&#x95F4;&#x6233;
+    * <span class="hljs-doctag">@return</span> &#x4E0B;&#x4E00;&#x4E2A;&#x6BEB;&#x79D2;
+    */</span>
+   <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">long</span> <span class="hljs-title">tilNextMillis</span><span class="hljs-params">(<span class="hljs-keyword">long</span> lastTimestamp)</span> </span>{
+      <span class="hljs-keyword">long</span> timestamp = timeGen();
+      <span class="hljs-keyword">while</span> (timestamp &lt;= lastTimestamp) {
+         timestamp = timeGen();
+      }
+      <span class="hljs-keyword">return</span> timestamp;
+   }
+
+   <span class="hljs-comment">/**
+    * &#x83B7;&#x5F97;&#x7CFB;&#x7EDF;&#x5F53;&#x524D;&#x6BEB;&#x79D2;&#x6570;
+    * <span class="hljs-doctag">@return</span> &#x83B7;&#x5F97;&#x7CFB;&#x7EDF;&#x5F53;&#x524D;&#x6BEB;&#x79D2;&#x6570;
+    */</span>
+   <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">long</span> <span class="hljs-title">timeGen</span><span class="hljs-params">()</span> </span>{
+      <span class="hljs-keyword">return</span> System.currentTimeMillis();
+   }
+
+}
+</code></pre>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="协议设计.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 3：协议设计">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"4：消息id设计","level":"1.5","depth":1,"previous":{"title":"3：协议设计","level":"1.4","depth":1,"path":"协议设计.md","ref":"协议设计.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"消息id设计.md","mtime":"2019-05-01T15:38:28.131Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-01T15:38:44.492Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
